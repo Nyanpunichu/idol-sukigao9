@@ -45,9 +45,7 @@ p {
   display: none;
 }
 
-/* =====================
-   ボタン
-===================== */
+/* ボタン */
 
 .main-button {
   display: inline-block;
@@ -66,9 +64,7 @@ p {
   transform: scale(0.96);
 }
 
-/* =====================
-   予選
-===================== */
+/* 予選 */
 
 .progress {
   color: #ed7faf;
@@ -113,15 +109,23 @@ p {
   background: #f5d8e6;
 }
 
+/* グループ名 */
+
+.idol-group {
+  font-size: 11px;
+  color: #999;
+  margin-top: 6px;
+}
+
+/* アイドル名 */
+
 .idol-name {
   font-size: 14px;
   font-weight: bold;
-  margin: 7px 2px 4px;
+  margin: 4px 2px;
 }
 
-/* =====================
-   本戦・決勝
-===================== */
+/* 本戦・決勝 */
 
 .battle-grid {
   display: grid;
@@ -155,9 +159,7 @@ p {
   background: #f8f1ff;
 }
 
-/* =====================
-   最終結果
-===================== */
+/* 最終結果 */
 
 .result-list {
   max-width: 600px;
@@ -166,16 +168,6 @@ p {
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
 }
-
-/*
-  配置はJavaScriptで
-
-  4位 5位 6位
-  2位 1位 3位
-  7位 8位 9位
-
-  にする
-*/
 
 .result-item {
   background: white;
@@ -238,18 +230,13 @@ p {
 </style>
 </head>
 
-
 <body>
 
-<!-- =========================
-     START画面
-========================= -->
+<!-- START -->
 
 <section id="startScreen" class="screen">
 
-  <h1>
-    ♡ 女アイドル好き顔9選 ♡
-  </h1>
+  <h1>♡ 女アイドル好き顔9選 ♡</h1>
 
   <p>
     あなたの「顔が好き！」な<br>
@@ -263,9 +250,7 @@ p {
 </section>
 
 
-<!-- =========================
-     予選
-========================= -->
+<!-- 予選 -->
 
 <section id="preliminaryScreen" class="screen hidden">
 
@@ -287,9 +272,7 @@ p {
 </section>
 
 
-<!-- =========================
-     本戦
-========================= -->
+<!-- 本戦 -->
 
 <section id="mainScreen" class="screen hidden">
 
@@ -306,9 +289,7 @@ p {
 </section>
 
 
-<!-- =========================
-     決勝
-========================= -->
+<!-- 決勝 -->
 
 <section id="finalScreen" class="screen hidden">
 
@@ -326,9 +307,7 @@ p {
 </section>
 
 
-<!-- =========================
-     最終結果
-========================= -->
+<!-- 結果 -->
 
 <section id="resultScreen" class="screen hidden">
 
@@ -352,88 +331,151 @@ p {
 
 /* =========================================
    アイドルデータ
+
+   「name」＝アイドル名
+   「group」＝グループ名
+   「image」＝画像
+
    今はテスト用18人
-   後で300人に変更する
 ========================================= */
 
 const idols = [
 
-  { name: "アイドル01", image: "https://placehold.co/500x500/ffd6e8/ffffff?text=01" },
+  {
+    name: "アイドル01",
+    group: "グループ01",
+    image: "https://placehold.co/500x500/ffd6e8/ffffff?text=01"
+  },
 
-  { name: "アイドル02", image: "https://placehold.co/500x500/f8d8e8/ffffff?text=02" },
+  {
+    name: "アイドル02",
+    group: "グループ02",
+    image: "https://placehold.co/500x500/f8d8e8/ffffff?text=02"
+  },
 
-  { name: "アイドル03", image: "https://placehold.co/500x500/f3d9ef/ffffff?text=03" },
+  {
+    name: "アイドル03",
+    group: "グループ03",
+    image: "https://placehold.co/500x500/f3d9ef/ffffff?text=03"
+  },
 
-  { name: "アイドル04", image: "https://placehold.co/500x500/e8d8f5/ffffff?text=04" },
+  {
+    name: "アイドル04",
+    group: "グループ04",
+    image: "https://placehold.co/500x500/e8d8f5/ffffff?text=04"
+  },
 
-  { name: "アイドル05", image: "https://placehold.co/500x500/dedcf5/ffffff?text=05" },
+  {
+    name: "アイドル05",
+    group: "グループ05",
+    image: "https://placehold.co/500x500/dedcf5/ffffff?text=05"
+  },
 
-  { name: "アイドル06", image: "https://placehold.co/500x500/d8e8f5/ffffff?text=06" },
+  {
+    name: "アイドル06",
+    group: "グループ06",
+    image: "https://placehold.co/500x500/d8e8f5/ffffff?text=06"
+  },
 
-  { name: "アイドル07", image: "https://placehold.co/500x500/d8f0ed/ffffff?text=07" },
+  {
+    name: "アイドル07",
+    group: "グループ07",
+    image: "https://placehold.co/500x500/d8f0ed/ffffff?text=07"
+  },
 
-  { name: "アイドル08", image: "https://placehold.co/500x500/dff2d8/ffffff?text=08" },
+  {
+    name: "アイドル08",
+    group: "グループ08",
+    image: "https://placehold.co/500x500/dff2d8/ffffff?text=08"
+  },
 
-  { name: "アイドル09", image: "https://placehold.co/500x500/f0f0d8/ffffff?text=09" },
+  {
+    name: "アイドル09",
+    group: "グループ09",
+    image: "https://placehold.co/500x500/f0f0d8/ffffff?text=09"
+  },
 
-  { name: "アイドル10", image: "https://placehold.co/500x500/f8e3d2/ffffff?text=10" },
+  {
+    name: "アイドル10",
+    group: "グループ10",
+    image: "https://placehold.co/500x500/f8e3d2/ffffff?text=10"
+  },
 
-  { name: "アイドル11", image: "https://placehold.co/500x500/f5d8d8/ffffff?text=11" },
+  {
+    name: "アイドル11",
+    group: "グループ11",
+    image: "https://placehold.co/500x500/f5d8d8/ffffff?text=11"
+  },
 
-  { name: "アイドル12", image: "https://placehold.co/500x500/e8d8e8/ffffff?text=12" },
+  {
+    name: "アイドル12",
+    group: "グループ12",
+    image: "https://placehold.co/500x500/e8d8e8/ffffff?text=12"
+  },
 
-  { name: "アイドル13", image: "https://placehold.co/500x500/d8e8f0/ffffff?text=13" },
+  {
+    name: "アイドル13",
+    group: "グループ13",
+    image: "https://placehold.co/500x500/d8e8f0/ffffff?text=13"
+  },
 
-  { name: "アイドル14", image: "https://placehold.co/500x500/e0d8f0/ffffff?text=14" },
+  {
+    name: "アイドル14",
+    group: "グループ14",
+    image: "https://placehold.co/500x500/e0d8f0/ffffff?text=14"
+  },
 
-  { name: "アイドル15", image: "https://placehold.co/500x500/f0d8e0/ffffff?text=15" },
+  {
+    name: "アイドル15",
+    group: "グループ15",
+    image: "https://placehold.co/500x500/f0d8e0/ffffff?text=15"
+  },
 
-  { name: "アイドル16", image: "https://placehold.co/500x500/d8f0e8/ffffff?text=16" },
+  {
+    name: "アイドル16",
+    group: "グループ16",
+    image: "https://placehold.co/500x500/d8f0e8/ffffff?text=16"
+  },
 
-  { name: "アイドル17", image: "https://placehold.co/500x500/f0e8d8/ffffff?text=17" },
+  {
+    name: "アイドル17",
+    group: "グループ17",
+    image: "https://placehold.co/500x500/f0e8d8/ffffff?text=17"
+  },
 
-  { name: "アイドル18", image: "https://placehold.co/500x500/e8d8f0/ffffff?text=18" }
+  {
+    name: "アイドル18",
+    group: "グループ18",
+    image: "https://placehold.co/500x500/e8d8f0/ffffff?text=18"
+  }
 
 ];
 
 
-/* =========================================
-   ゲームの状態
-========================================= */
+/* ゲームの状態 */
 
 let preliminaryPage = 0;
-
 let preliminarySelected = [];
 
 let mainCandidates = [];
-
 let mainGroups = [];
-
 let currentMainGroup = 0;
 
 let firstChoice = null;
-
 let secondChoice = null;
 
 let finalCandidates = [];
-
 let finalPairs = [];
-
 let currentFinalPair = 0;
-
 let finalWins = {};
 
 
-/* =========================================
-   画面切り替え
-========================================= */
+/* 画面切り替え */
 
 function showScreen(id) {
 
   document.querySelectorAll(".screen").forEach(screen => {
-
     screen.classList.add("hidden");
-
   });
 
   document.getElementById(id).classList.remove("hidden");
@@ -443,14 +485,11 @@ function showScreen(id) {
 }
 
 
-/* =========================================
-   START
-========================================= */
+/* START */
 
 function startGame() {
 
   preliminaryPage = 0;
-
   preliminarySelected = [];
 
   showScreen("preliminaryScreen");
@@ -460,35 +499,47 @@ function startGame() {
 }
 
 
-/* =========================================
-   予選
-   9人ずつ
-========================================= */
+/* 予選 */
 
 function showPreliminary() {
 
   const start = preliminaryPage * 9;
 
-  const pageIdols = idols.slice(start, start + 9);
+  const pageIdols =
+    idols.slice(start, start + 9);
 
-  const totalPages = Math.ceil(idols.length / 9);
+  const totalPages =
+    Math.ceil(idols.length / 9);
 
-  document.getElementById("preliminaryProgress").textContent =
+  document.getElementById(
+    "preliminaryProgress"
+  ).textContent =
     `予選 ${preliminaryPage + 1} / ${totalPages}`;
 
-  const grid = document.getElementById("preliminaryGrid");
+  const grid =
+    document.getElementById("preliminaryGrid");
 
   grid.innerHTML = "";
 
+
   pageIdols.forEach((idol, index) => {
 
-    const card = document.createElement("div");
+    const card =
+      document.createElement("div");
 
     card.className = "idol-card";
 
+
     card.innerHTML = `
 
-      <img class="idol-photo" src="${idol.image}">
+      <img
+        class="idol-photo"
+        src="${idol.image}"
+      >
+
+      <div class="idol-group">
+        ${idol.group}
+      </div>
 
       <div class="idol-name">
         ${idol.name}
@@ -496,16 +547,23 @@ function showPreliminary() {
 
     `;
 
+
     card.onclick = () => {
 
       card.classList.toggle("selected");
 
-      const realIndex = start + index;
+      const realIndex =
+        start + index;
 
-      if (preliminarySelected.includes(realIndex)) {
+
+      if (
+        preliminarySelected.includes(realIndex)
+      ) {
 
         preliminarySelected =
-          preliminarySelected.filter(i => i !== realIndex);
+          preliminarySelected.filter(
+            i => i !== realIndex
+          );
 
       } else {
 
@@ -515,6 +573,7 @@ function showPreliminary() {
 
     };
 
+
     grid.appendChild(card);
 
   });
@@ -522,15 +581,16 @@ function showPreliminary() {
 }
 
 
-/* =========================================
-   予選 次へ
-========================================= */
+/* 予選 次へ */
 
 function nextPreliminary() {
 
   preliminaryPage++;
 
-  if (preliminaryPage * 9 < idols.length) {
+
+  if (
+    preliminaryPage * 9 < idols.length
+  ) {
 
     showPreliminary();
 
@@ -543,42 +603,47 @@ function nextPreliminary() {
 }
 
 
-/* =========================================
-   予選終了
-========================================= */
+/* 予選終了 */
 
 function finishPreliminary() {
 
   mainCandidates =
-    preliminarySelected.map(i => idols[i]);
+    preliminarySelected.map(
+      i => idols[i]
+    );
 
 
   /*
-    4人未満の場合はテスト用として
-    ランダムに4人追加
+    4人未満ならテスト用として
+    足りない人数を追加
   */
 
   if (mainCandidates.length < 4) {
 
-    const remaining = idols.filter(
-      idol => !mainCandidates.includes(idol)
-    );
+    const remaining =
+      idols.filter(
+        idol => !mainCandidates.includes(idol)
+      );
+
 
     mainCandidates = [
       ...mainCandidates,
+
       ...remaining
         .sort(() => Math.random() - 0.5)
-        .slice(0, 4 - mainCandidates.length)
+        .slice(
+          0,
+          4 - mainCandidates.length
+        )
     ];
 
   }
 
 
-  /*
-    本戦を4人ずつに分ける
-  */
+  /* 本戦を4人ずつに分ける */
 
   mainGroups = [];
+
 
   for (
     let i = 0;
@@ -602,9 +667,7 @@ function finishPreliminary() {
 }
 
 
-/* =========================================
-   本戦
-========================================= */
+/* 本戦 */
 
 function showMainBattle() {
 
@@ -612,19 +675,26 @@ function showMainBattle() {
     mainGroups[currentMainGroup];
 
   firstChoice = null;
-
   secondChoice = null;
 
-  document.getElementById("mainProgress").textContent =
+
+  document.getElementById(
+    "mainProgress"
+  ).textContent =
     `本戦 ${currentMainGroup + 1} / ${mainGroups.length}`;
 
-  document.getElementById("mainInstruction").textContent =
+
+  document.getElementById(
+    "mainInstruction"
+  ).textContent =
     "まず「1番好き」をタップしてね♡";
+
 
   const grid =
     document.getElementById("mainGrid");
 
   grid.innerHTML = "";
+
 
   group.forEach(idol => {
 
@@ -634,9 +704,17 @@ function showMainBattle() {
     card.className =
       "battle-card";
 
+
     card.innerHTML = `
 
-      <img class="idol-photo" src="${idol.image}">
+      <img
+        class="idol-photo"
+        src="${idol.image}"
+      >
+
+      <div class="idol-group">
+        ${idol.group}
+      </div>
 
       <div class="idol-name">
         ${idol.name}
@@ -644,8 +722,10 @@ function showMainBattle() {
 
     `;
 
+
     card.onclick = () =>
       chooseMain(idol, card);
+
 
     grid.appendChild(card);
 
@@ -654,9 +734,7 @@ function showMainBattle() {
 }
 
 
-/* =========================================
-   本戦 選択
-========================================= */
+/* 本戦 選択 */
 
 function chooseMain(idol, card) {
 
@@ -668,10 +746,12 @@ function chooseMain(idol, card) {
       "selected-first"
     );
 
+
     document.getElementById(
       "mainInstruction"
     ).textContent =
       "次に「2番目に好き」をタップしてね♡";
+
 
     return;
 
@@ -689,9 +769,11 @@ function chooseMain(idol, card) {
       "selected-second"
     );
 
+
     setTimeout(() => {
 
       currentMainGroup++;
+
 
       if (
         currentMainGroup <
@@ -713,16 +795,9 @@ function chooseMain(idol, card) {
 }
 
 
-/* =========================================
-   本戦終了
-========================================= */
+/* 本戦終了 */
 
 function finishMain() {
-
-  /*
-    現段階では本戦参加者から
-    最大12人を決勝へ
-  */
 
   finalCandidates =
     [...mainCandidates].slice(0, 12);
@@ -742,14 +817,11 @@ function finishMain() {
 }
 
 
-/* =========================================
-   決勝の全組み合わせ
-========================================= */
+/* 決勝の組み合わせを作る */
 
 function createFinalPairs() {
 
   finalPairs = [];
-
   finalWins = {};
 
 
@@ -771,11 +843,8 @@ function createFinalPairs() {
     ) {
 
       finalPairs.push([
-
         finalCandidates[i],
-
         finalCandidates[j]
-
       ]);
 
     }
@@ -792,14 +861,13 @@ function createFinalPairs() {
 }
 
 
-/* =========================================
-   決勝
-========================================= */
+/* 決勝 */
 
 function showFinalBattle() {
 
   const pair =
     finalPairs[currentFinalPair];
+
 
   document.getElementById(
     "finalProgress"
@@ -824,7 +892,14 @@ function showFinalBattle() {
 
     card.innerHTML = `
 
-      <img class="idol-photo" src="${idol.image}">
+      <img
+        class="idol-photo"
+        src="${idol.image}"
+      >
+
+      <div class="idol-group">
+        ${idol.group}
+      </div>
 
       <div class="idol-name">
         ${idol.name}
@@ -844,9 +919,7 @@ function showFinalBattle() {
 }
 
 
-/* =========================================
-   決勝 選択
-========================================= */
+/* 決勝 選択 */
 
 function chooseFinal(winner) {
 
@@ -871,9 +944,7 @@ function chooseFinal(winner) {
 }
 
 
-/* =========================================
-   決勝終了
-========================================= */
+/* 決勝終了 */
 
 function finishFinal() {
 
@@ -892,9 +963,7 @@ function finishFinal() {
 }
 
 
-/* =========================================
-   最終結果
-========================================= */
+/* 最終結果 */
 
 function showResult(ranking) {
 
@@ -902,9 +971,7 @@ function showResult(ranking) {
 
 
   const list =
-    document.getElementById(
-      "resultList"
-    );
+    document.getElementById("resultList");
 
   list.innerHTML = "";
 
@@ -936,7 +1003,6 @@ function showResult(ranking) {
     const item =
       document.createElement("div");
 
-
     item.className =
       "result-item";
 
@@ -951,6 +1017,10 @@ function showResult(ranking) {
         class="result-photo"
         src="${idol.image}"
       >
+
+      <div class="idol-group">
+        ${idol.group}
+      </div>
 
       <div class="idol-name">
         ${idol.name}
