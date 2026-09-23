@@ -45,6 +45,10 @@ p {
   display: none;
 }
 
+/* =====================
+   ボタン
+===================== */
+
 .main-button {
   display: inline-block;
   border: none;
@@ -57,6 +61,14 @@ p {
   margin-top: 25px;
   cursor: pointer;
 }
+
+.main-button:active {
+  transform: scale(0.96);
+}
+
+/* =====================
+   予選
+===================== */
 
 .progress {
   color: #ed7faf;
@@ -84,6 +96,7 @@ p {
   padding: 8px;
   cursor: pointer;
   box-shadow: 0 3px 12px rgba(0,0,0,.06);
+  transition: .15s;
 }
 
 .idol-card.selected {
@@ -106,6 +119,10 @@ p {
   margin: 7px 2px 4px;
 }
 
+/* =====================
+   本戦・決勝
+===================== */
+
 .battle-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -121,52 +138,118 @@ p {
   padding: 10px;
   cursor: pointer;
   box-shadow: 0 3px 12px rgba(0,0,0,.06);
+  transition: .15s;
+}
+
+.battle-card:active {
+  transform: scale(.97);
 }
 
 .battle-card.selected-first {
   border-color: #ff669d;
+  background: #fff0f7;
 }
 
 .battle-card.selected-second {
   border-color: #b58be8;
+  background: #f8f1ff;
 }
 
+/* =====================
+   最終結果
+===================== */
+
 .result-list {
-  max-width: 500px;
+  max-width: 600px;
   margin: 25px auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
 }
+
+/*
+  配置はJavaScriptで
+
+  4位 5位 6位
+  2位 1位 3位
+  7位 8位 9位
+
+  にする
+*/
 
 .result-item {
   background: white;
   border-radius: 18px;
-  margin: 10px 0;
-  padding: 12px;
+  padding: 10px 5px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
+  justify-content: center;
+  gap: 5px;
+  box-shadow: 0 3px 12px rgba(0,0,0,.05);
 }
 
 .result-rank {
-  font-size: 24px;
+  font-size: 19px;
   font-weight: bold;
   color: #ed7faf;
-  width: 45px;
 }
 
 .result-photo {
-  width: 65px;
-  height: 65px;
+  width: 100%;
+  aspect-ratio: 1 / 1;
   border-radius: 14px;
   object-fit: cover;
+}
+
+.result-item:nth-child(5) {
+  border: 3px solid #ed7faf;
+  transform: scale(1.03);
+}
+
+.result-item:nth-child(5) .result-rank {
+  font-size: 23px;
+}
+
+@media (max-width: 500px) {
+
+  .idol-grid {
+    gap: 8px;
+  }
+
+  .idol-name {
+    font-size: 12px;
+  }
+
+  .result-list {
+    gap: 7px;
+  }
+
+  .result-item {
+    border-radius: 14px;
+    padding: 7px 4px;
+  }
+
+  .result-rank {
+    font-size: 16px;
+  }
+
 }
 </style>
 </head>
 
+
 <body>
+
+<!-- =========================
+     START画面
+========================= -->
 
 <section id="startScreen" class="screen">
 
-  <h1>♡ 女アイドル好き顔9選 ♡</h1>
+  <h1>
+    ♡ 女アイドル好き顔9選 ♡
+  </h1>
 
   <p>
     あなたの「顔が好き！」な<br>
@@ -179,6 +262,10 @@ p {
 
 </section>
 
+
+<!-- =========================
+     予選
+========================= -->
 
 <section id="preliminaryScreen" class="screen hidden">
 
@@ -200,6 +287,10 @@ p {
 </section>
 
 
+<!-- =========================
+     本戦
+========================= -->
+
 <section id="mainScreen" class="screen hidden">
 
   <div class="progress" id="mainProgress"></div>
@@ -214,6 +305,10 @@ p {
 
 </section>
 
+
+<!-- =========================
+     決勝
+========================= -->
 
 <section id="finalScreen" class="screen hidden">
 
@@ -231,9 +326,13 @@ p {
 </section>
 
 
+<!-- =========================
+     最終結果
+========================= -->
+
 <section id="resultScreen" class="screen hidden">
 
-  <h1>♡ あなたの好き顔TOP9 ♡</h1>
+  <h1>♡ あなたの好き顔9選 ♡</h1>
 
   <p>
     あなたが選んだ<br>
@@ -251,73 +350,131 @@ p {
 
 <script>
 
+/* =========================================
+   アイドルデータ
+   今はテスト用18人
+   後で300人に変更する
+========================================= */
+
 const idols = [
+
   { name: "アイドル01", image: "https://placehold.co/500x500/ffd6e8/ffffff?text=01" },
+
   { name: "アイドル02", image: "https://placehold.co/500x500/f8d8e8/ffffff?text=02" },
+
   { name: "アイドル03", image: "https://placehold.co/500x500/f3d9ef/ffffff?text=03" },
+
   { name: "アイドル04", image: "https://placehold.co/500x500/e8d8f5/ffffff?text=04" },
+
   { name: "アイドル05", image: "https://placehold.co/500x500/dedcf5/ffffff?text=05" },
+
   { name: "アイドル06", image: "https://placehold.co/500x500/d8e8f5/ffffff?text=06" },
+
   { name: "アイドル07", image: "https://placehold.co/500x500/d8f0ed/ffffff?text=07" },
+
   { name: "アイドル08", image: "https://placehold.co/500x500/dff2d8/ffffff?text=08" },
+
   { name: "アイドル09", image: "https://placehold.co/500x500/f0f0d8/ffffff?text=09" },
+
   { name: "アイドル10", image: "https://placehold.co/500x500/f8e3d2/ffffff?text=10" },
+
   { name: "アイドル11", image: "https://placehold.co/500x500/f5d8d8/ffffff?text=11" },
+
   { name: "アイドル12", image: "https://placehold.co/500x500/e8d8e8/ffffff?text=12" },
+
   { name: "アイドル13", image: "https://placehold.co/500x500/d8e8f0/ffffff?text=13" },
+
   { name: "アイドル14", image: "https://placehold.co/500x500/e0d8f0/ffffff?text=14" },
+
   { name: "アイドル15", image: "https://placehold.co/500x500/f0d8e0/ffffff?text=15" },
+
   { name: "アイドル16", image: "https://placehold.co/500x500/d8f0e8/ffffff?text=16" },
+
   { name: "アイドル17", image: "https://placehold.co/500x500/f0e8d8/ffffff?text=17" },
+
   { name: "アイドル18", image: "https://placehold.co/500x500/e8d8f0/ffffff?text=18" }
+
 ];
 
+
+/* =========================================
+   ゲームの状態
+========================================= */
+
 let preliminaryPage = 0;
+
 let preliminarySelected = [];
 
 let mainCandidates = [];
+
 let mainGroups = [];
+
 let currentMainGroup = 0;
 
 let firstChoice = null;
+
 let secondChoice = null;
 
 let finalCandidates = [];
+
 let finalPairs = [];
+
 let currentFinalPair = 0;
+
 let finalWins = {};
 
+
+/* =========================================
+   画面切り替え
+========================================= */
 
 function showScreen(id) {
 
   document.querySelectorAll(".screen").forEach(screen => {
+
     screen.classList.add("hidden");
+
   });
 
   document.getElementById(id).classList.remove("hidden");
 
   window.scrollTo(0, 0);
+
 }
 
+
+/* =========================================
+   START
+========================================= */
 
 function startGame() {
 
   preliminaryPage = 0;
+
   preliminarySelected = [];
 
   showScreen("preliminaryScreen");
 
   showPreliminary();
+
 }
 
+
+/* =========================================
+   予選
+   9人ずつ
+========================================= */
 
 function showPreliminary() {
 
   const start = preliminaryPage * 9;
+
   const pageIdols = idols.slice(start, start + 9);
 
+  const totalPages = Math.ceil(idols.length / 9);
+
   document.getElementById("preliminaryProgress").textContent =
-    `予選 ${preliminaryPage + 1} / ${Math.ceil(idols.length / 9)}`;
+    `予選 ${preliminaryPage + 1} / ${totalPages}`;
 
   const grid = document.getElementById("preliminaryGrid");
 
@@ -330,8 +487,13 @@ function showPreliminary() {
     card.className = "idol-card";
 
     card.innerHTML = `
+
       <img class="idol-photo" src="${idol.image}">
-      <div class="idol-name">${idol.name}</div>
+
+      <div class="idol-name">
+        ${idol.name}
+      </div>
+
     `;
 
     card.onclick = () => {
@@ -341,10 +503,14 @@ function showPreliminary() {
       const realIndex = start + index;
 
       if (preliminarySelected.includes(realIndex)) {
+
         preliminarySelected =
           preliminarySelected.filter(i => i !== realIndex);
+
       } else {
+
         preliminarySelected.push(realIndex);
+
       }
 
     };
@@ -356,36 +522,76 @@ function showPreliminary() {
 }
 
 
+/* =========================================
+   予選 次へ
+========================================= */
+
 function nextPreliminary() {
 
   preliminaryPage++;
 
   if (preliminaryPage * 9 < idols.length) {
+
     showPreliminary();
+
   } else {
+
     finishPreliminary();
+
   }
 
 }
 
 
+/* =========================================
+   予選終了
+========================================= */
+
 function finishPreliminary() {
 
-  mainCandidates = preliminarySelected.map(i => idols[i]);
+  mainCandidates =
+    preliminarySelected.map(i => idols[i]);
+
+
+  /*
+    4人未満の場合はテスト用として
+    ランダムに4人追加
+  */
 
   if (mainCandidates.length < 4) {
 
-    mainCandidates = [...idols]
-      .sort(() => Math.random() - 0.5)
-      .slice(0, 4);
+    const remaining = idols.filter(
+      idol => !mainCandidates.includes(idol)
+    );
+
+    mainCandidates = [
+      ...mainCandidates,
+      ...remaining
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 4 - mainCandidates.length)
+    ];
 
   }
+
+
+  /*
+    本戦を4人ずつに分ける
+  */
 
   mainGroups = [];
 
-  for (let i = 0; i < mainCandidates.length; i += 4) {
-    mainGroups.push(mainCandidates.slice(i, i + 4));
+  for (
+    let i = 0;
+    i < mainCandidates.length;
+    i += 4
+  ) {
+
+    mainGroups.push(
+      mainCandidates.slice(i, i + 4)
+    );
+
   }
+
 
   currentMainGroup = 0;
 
@@ -396,11 +602,17 @@ function finishPreliminary() {
 }
 
 
+/* =========================================
+   本戦
+========================================= */
+
 function showMainBattle() {
 
-  const group = mainGroups[currentMainGroup];
+  const group =
+    mainGroups[currentMainGroup];
 
   firstChoice = null;
+
   secondChoice = null;
 
   document.getElementById("mainProgress").textContent =
@@ -409,22 +621,31 @@ function showMainBattle() {
   document.getElementById("mainInstruction").textContent =
     "まず「1番好き」をタップしてね♡";
 
-  const grid = document.getElementById("mainGrid");
+  const grid =
+    document.getElementById("mainGrid");
 
   grid.innerHTML = "";
 
   group.forEach(idol => {
 
-    const card = document.createElement("div");
+    const card =
+      document.createElement("div");
 
-    card.className = "battle-card";
+    card.className =
+      "battle-card";
 
     card.innerHTML = `
+
       <img class="idol-photo" src="${idol.image}">
-      <div class="idol-name">${idol.name}</div>
+
+      <div class="idol-name">
+        ${idol.name}
+      </div>
+
     `;
 
-    card.onclick = () => chooseMain(idol, card);
+    card.onclick = () =>
+      chooseMain(idol, card);
 
     grid.appendChild(card);
 
@@ -433,34 +654,56 @@ function showMainBattle() {
 }
 
 
+/* =========================================
+   本戦 選択
+========================================= */
+
 function chooseMain(idol, card) {
 
   if (!firstChoice) {
 
     firstChoice = idol;
 
-    card.classList.add("selected-first");
+    card.classList.add(
+      "selected-first"
+    );
 
-    document.getElementById("mainInstruction").textContent =
+    document.getElementById(
+      "mainInstruction"
+    ).textContent =
       "次に「2番目に好き」をタップしてね♡";
 
     return;
+
   }
 
-  if (!secondChoice && idol !== firstChoice) {
+
+  if (
+    !secondChoice &&
+    idol !== firstChoice
+  ) {
 
     secondChoice = idol;
 
-    card.classList.add("selected-second");
+    card.classList.add(
+      "selected-second"
+    );
 
     setTimeout(() => {
 
       currentMainGroup++;
 
-      if (currentMainGroup < mainGroups.length) {
+      if (
+        currentMainGroup <
+        mainGroups.length
+      ) {
+
         showMainBattle();
+
       } else {
+
         finishMain();
+
       }
 
     }, 500);
@@ -470,19 +713,38 @@ function chooseMain(idol, card) {
 }
 
 
+/* =========================================
+   本戦終了
+========================================= */
+
 function finishMain() {
 
-  finalCandidates = [...mainCandidates].slice(0, 12);
+  /*
+    現段階では本戦参加者から
+    最大12人を決勝へ
+  */
+
+  finalCandidates =
+    [...mainCandidates].slice(0, 12);
+
 
   if (finalCandidates.length < 2) {
+
     showResult(finalCandidates);
+
     return;
+
   }
+
 
   createFinalPairs();
 
 }
 
+
+/* =========================================
+   決勝の全組み合わせ
+========================================= */
 
 function createFinalPairs() {
 
@@ -490,20 +752,36 @@ function createFinalPairs() {
 
   finalWins = {};
 
-  for (let i = 0; i < finalCandidates.length; i++) {
 
-    finalWins[finalCandidates[i].name] = 0;
+  for (
+    let i = 0;
+    i < finalCandidates.length;
+    i++
+  ) {
 
-    for (let j = i + 1; j < finalCandidates.length; j++) {
+    finalWins[
+      finalCandidates[i].name
+    ] = 0;
+
+
+    for (
+      let j = i + 1;
+      j < finalCandidates.length;
+      j++
+    ) {
 
       finalPairs.push([
+
         finalCandidates[i],
+
         finalCandidates[j]
+
       ]);
 
     }
 
   }
+
 
   currentFinalPair = 0;
 
@@ -514,29 +792,50 @@ function createFinalPairs() {
 }
 
 
+/* =========================================
+   決勝
+========================================= */
+
 function showFinalBattle() {
 
-  const pair = finalPairs[currentFinalPair];
+  const pair =
+    finalPairs[currentFinalPair];
 
-  document.getElementById("finalProgress").textContent =
+  document.getElementById(
+    "finalProgress"
+  ).textContent =
     `決勝 ${currentFinalPair + 1} / ${finalPairs.length}`;
 
-  const grid = document.getElementById("finalGrid");
+
+  const grid =
+    document.getElementById("finalGrid");
 
   grid.innerHTML = "";
 
+
   pair.forEach(idol => {
 
-    const card = document.createElement("div");
+    const card =
+      document.createElement("div");
 
-    card.className = "battle-card";
+    card.className =
+      "battle-card";
+
 
     card.innerHTML = `
+
       <img class="idol-photo" src="${idol.image}">
-      <div class="idol-name">${idol.name}</div>
+
+      <div class="idol-name">
+        ${idol.name}
+      </div>
+
     `;
 
-    card.onclick = () => chooseFinal(idol);
+
+    card.onclick = () =>
+      chooseFinal(idol);
+
 
     grid.appendChild(card);
 
@@ -545,53 +844,120 @@ function showFinalBattle() {
 }
 
 
+/* =========================================
+   決勝 選択
+========================================= */
+
 function chooseFinal(winner) {
 
   finalWins[winner.name]++;
 
   currentFinalPair++;
 
-  if (currentFinalPair < finalPairs.length) {
+
+  if (
+    currentFinalPair <
+    finalPairs.length
+  ) {
+
     showFinalBattle();
+
   } else {
+
     finishFinal();
+
   }
 
 }
 
 
+/* =========================================
+   決勝終了
+========================================= */
+
 function finishFinal() {
 
-  const ranking = [...finalCandidates].sort((a, b) => {
+  const ranking =
+    [...finalCandidates].sort(
+      (a, b) =>
+        finalWins[b.name] -
+        finalWins[a.name]
+    );
 
-    return finalWins[b.name] - finalWins[a.name];
 
-  });
-
-  showResult(ranking.slice(0, 9));
+  showResult(
+    ranking.slice(0, 9)
+  );
 
 }
 
+
+/* =========================================
+   最終結果
+========================================= */
 
 function showResult(ranking) {
 
   showScreen("resultScreen");
 
-  const list = document.getElementById("resultList");
+
+  const list =
+    document.getElementById(
+      "resultList"
+    );
 
   list.innerHTML = "";
 
-  ranking.forEach((idol, index) => {
 
-    const item = document.createElement("div");
+  /*
+      4位  5位  6位
 
-    item.className = "result-item";
+      2位  1位  3位
+
+      7位  8位  9位
+  */
+
+  const order = [
+    4, 5, 6,
+    2, 1, 3,
+    7, 8, 9
+  ];
+
+
+  order.forEach(rank => {
+
+    const idol =
+      ranking[rank - 1];
+
+
+    if (!idol) return;
+
+
+    const item =
+      document.createElement("div");
+
+
+    item.className =
+      "result-item";
+
 
     item.innerHTML = `
-      <div class="result-rank">${index + 1}</div>
-      <img class="result-photo" src="${idol.image}">
-      <div class="idol-name">${idol.name}</div>
+
+      <div class="result-rank">
+        ${rank}位
+      </div>
+
+      <img
+        class="result-photo"
+        src="${idol.image}"
+      >
+
+      <div class="idol-name">
+        ${idol.name}
+      </div>
+
     `;
+
 
     list.appendChild(item);
 
